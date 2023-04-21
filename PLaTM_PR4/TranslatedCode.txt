@@ -1,0 +1,108 @@
+.386 
+.MODEL FLAT, STDCALL 
+
+EXTERN  ExitProcess@4 : PROC  ; функция выхода из программы.
+.DATA  ; Сегмент данных. 
+
+_a DD ? 
+_b DD ? 
+_p DD ? 
+_d DD ? 
+_sum DD ? 
+r0 DD ? 
+r1 DD ? 
+r2 DD ? 
+
+.CODE  ; Сегмент кода. 
+MAIN PROC 
+
+MOV EAX, 10
+MOV _a, EAX 
+
+MOV EAX, 5
+MOV _b, EAX 
+
+MOV EAX, 9
+MOV _p, EAX 
+
+MOV EAX, 2
+MOV _d, EAX 
+
+MOV EAX, _a
+MOV EBX, _b
+CMP EAX, EBX
+JE m0
+
+MOV EAX, _a
+MOV EBX, _b
+SUB EAX, EBX
+MOV r0, EAX
+
+MOV EAX, r0
+MOV _sum, EAX 
+
+MOV EAX, _a
+MOV EBX, 5
+CMP EAX, EBX
+JNE m1
+
+MOV EAX, _b
+MOV _sum, EAX 
+
+JMP m2
+
+m1:
+
+MOV EAX, _p
+MOV EBX, _d
+MUL EBX
+MOV r0, EAX
+
+MOV EAX, _b
+MOV EBX, _sum
+ADD EAX, EBX
+MOV r1, EAX
+
+MOV EAX, r0
+MOV EBX, r1
+MUL EBX
+MOV r1, EAX
+
+MOV EAX, r1
+MOV _sum, EAX 
+
+m2:
+
+JMP m3
+
+m0:
+
+MOV EAX, _a
+MOV EBX, _b
+ADD EAX, EBX
+MOV r1, EAX
+
+MOV EAX, _d
+MOV EBX, r1
+MUL EBX
+MOV r1, EAX
+
+MOV EAX, _a
+MOV EBX, _b
+ADD EAX, EBX
+MOV r2, EAX
+
+MOV EAX, r1
+MOV EBX, r2
+SUB EAX, EBX
+MOV r2, EAX
+
+MOV EAX, r2
+MOV _sum, EAX 
+
+m3:
+
+PUSH 0                 ; Параметр: код выхода. 
+CALL ExitProcess@4 
+MAIN ENDP              ; Завершение описания процедуры с именем MAIN. 
+END MAIN               ; Завершение описания модуля с указанием первой выполняемой процедуры. 
